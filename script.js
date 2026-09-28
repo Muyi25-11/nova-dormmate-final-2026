@@ -32,6 +32,7 @@ const snapshotBtn = document.getElementById('snapshotBtn');
 const cameraVideo = document.getElementById('cameraVideo');
 const snapshotImg = document.getElementById('snapshotImg');
 const snapshotCanvas = document.getElementById('snapshotCanvas');
+const cameraHint = document.getElementById('cameraHint');
 const asrBtn = document.getElementById('asrBtn');
 const asrResult = document.getElementById('asrResult');
 const asrFallback = document.getElementById('asrFallback');
@@ -347,6 +348,24 @@ function executeCommand(text) {
   }
   return '';
 }
+
+// 判断当前是否运行在 localhost / HTTPS（摄像头 getUserMedia 需要安全上下文）
+function isCameraEnvSupported() {
+  return location.protocol === 'https:' ||
+         location.hostname === 'localhost' ||
+         location.hostname === '127.0.0.1';
+}
+
+// 页面加载时按当前环境更新摄像头提示与按钮可用状态
+(function initCameraEnv() {
+  if (isCameraEnvSupported()) {
+    cameraHint.textContent = '提示：当前为 localhost 环境，摄像头功能可用。首次使用请在浏览器弹窗中允许摄像头权限。';
+  } else {
+    cameraHint.textContent = '提示：当前不是 localhost 环境（' + location.protocol + '），摄像头不可用。请在项目目录运行 python -m http.server，再访问 http://localhost:8000。';
+    cameraBtn.disabled = true;
+    snapshotBtn.disabled = true;
+  }
+})();
 
 // 摄像头：开启摄像头申请权限并显示视频预览
 cameraBtn.addEventListener('click', async function () {

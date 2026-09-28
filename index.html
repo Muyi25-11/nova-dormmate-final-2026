@@ -39,7 +39,7 @@
           <button id="cameraBtn" class="secondary">开启摄像头</button>
           <button id="snapshotBtn" class="secondary">现场快照</button>
         </div>
-        <p class="hint">提示：摄像头需通过 localhost 访问（如运行 python -m http.server），file:// 直开时可能不可用。</p>
+        <p class="hint" id="cameraHint">提示：摄像头需通过 localhost 访问（如运行 python -m http.server），file:// 直开时可能不可用。</p>
         <video id="cameraVideo" autoplay playsinline muted></video>
         <img id="snapshotImg" alt="现场快照将显示在这里">
         <canvas id="snapshotCanvas" hidden></canvas>
