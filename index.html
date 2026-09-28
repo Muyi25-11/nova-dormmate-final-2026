@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormMate 环境分析</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card" id="inputView">
+    <h1>DormMate 环境分析</h1>
+    <p class="subtitle">输入宿舍温湿度，判断当前环境状态</p>
+
+    <div class="form">
+      <div class="field">
+        <label for="tempInput">温度（℃）</label>
+        <input type="text" id="tempInput" placeholder="例如 31">
+      </div>
+      <div class="field">
+        <label for="humidityInput">湿度（%）</label>
+        <input type="text" id="humidityInput" placeholder="例如 78">
+      </div>
+      <div class="buttons">
+        <button id="analyzeBtn">分析环境</button>
+        <button id="exportBtn">导出CSV</button>
+      </div>
+    </div>
+
+    <div id="result" class="result"></div>
+
+    <!-- 本机交互：摄像头 / 语音识别 ASR / 语音合成 TTS -->
+    <div class="interact">
+      <h2>本机交互</h2>
+
+      <!-- 摄像头：需通过 localhost（安全上下文）访问 -->
+      <div class="interact-section">
+        <h3>📷 摄像头</h3>
+        <div class="buttons">
+          <button id="cameraBtn" class="secondary">开启摄像头</button>
+          <button id="snapshotBtn" class="secondary">现场快照</button>
+        </div>
+        <p class="hint">提示：摄像头需通过 localhost 访问（如运行 python -m http.server），file:// 直开时可能不可用。</p>
+        <video id="cameraVideo" autoplay playsinline muted></video>
+        <img id="snapshotImg" alt="现场快照将显示在这里">
+        <canvas id="snapshotCanvas" hidden></canvas>
+      </div>
+
+      <!-- 语音识别 ASR -->
+      <div class="interact-section">
+        <h3>🎤 语音识别（ASR）</h3>
+        <div class="buttons">
+          <button id="asrBtn" class="secondary">开始语音识别</button>
+        </div>
+        <p class="hint">语音指令：「朗读状态」触发语音合成、「拍照」触发现场快照。</p>
+        <div id="asrResult" class="asr-result">识别文字将显示在这里</div>
+        <div id="asrFallback" hidden>
+          <div class="field">
+            <label for="asrManualInput">手动输入指令（浏览器不支持语音识别时使用）</label>
+            <input type="text" id="asrManualInput" placeholder="例如：朗读状态 / 拍照">
+          </div>
+          <div class="buttons">
+            <button id="asrManualBtn" class="secondary">执行指令</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 语音合成 TTS -->
+      <div class="interact-section">
+        <h3>🔊 语音合成（TTS）</h3>
+        <div class="buttons">
+          <button id="ttsBtn" class="secondary">朗读当前状态</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="history">
+      <h2>历史记录</h2>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <!-- 报告视图（导出 CSV 后展示，数据与本次累计历史同步） -->
+  <div class="card" id="reportView" hidden>
+    <h1>DormMate 环境分析报告</h1>
+    <div id="reportSummary" class="report-summary"></div>
+    <h2>温湿度趋势图</h2>
+    <canvas id="trendCanvas" width="640" height="320"></canvas>
+    <h2>需要关注的记录</h2>
+    <table class="report-table">
+      <thead>
+        <tr><th>时间</th><th>温度 (℃)</th><th>湿度 (%)</th><th>状态</th></tr>
+      </thead>
+      <tbody id="reportTableBody"></tbody>
+    </table>
+    <div class="buttons">
+      <button id="backBtn">返回录入</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+/* DormMate M1 自定义样式：卡片式渐变布局 */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* 明显可识别的样式：渐变背景 */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  padding: 32px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  border-color: #667eea;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#analyzeBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+#exportBtn {
+  background: #fff;
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.buttons button:hover {
+  opacity: 0.9;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  display: none;
+}
+
+.result .status {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.result .advice {
+  font-size: 14px;
+  color: #555;
+}
+
+/* 不同状态的颜色区分 */
+.result.hot {
+  display: block;
+  background: #fff1f0;
+  border: 1px solid #ffa39e;
+}
+.result.hot .status { color: #cf1322; }
+
+.result.cold {
+  display: block;
+  background: #f0f5ff;
+  border: 1px solid #adc6ff;
+}
+.result.cold .status { color: #1d39c4; }
+
+.result.humid {
+  display: block;
+  background: #e6fffb;
+  border: 1px solid #87e8de;
+}
+.result.humid .status { color: #006d75; }
+
+.result.dry {
+  display: block;
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+.result.dry .status { color: #ad6800; }
+
+.result.normal {
+  display: block;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+.result.normal .status { color: #389e0d; }
+
+.history {
+  margin-top: 24px;
+}
+
+.history h2 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+#historyList {
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+#historyList li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #555;
+}
+
+#historyList li .time {
+  color: #999;
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+#historyList li .tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+  color: #fff;
+}
+
+/* ===== 报告视图样式 ===== */
+.report-summary {
+  background: #f8f9fc;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 4px;
+}
+
+.report-summary p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+#reportView h2 {
+  font-size: 16px;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+#trendCanvas {
+  width: 100%;
+  height: auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.report-table th {
+  background: #667eea;
+  color: #fff;
+}
+
+.report-table .bad {
+  color: #cf1322;
+  font-weight: bold;
+}
+
+/* ===== M3 本机交互样式 ===== */
+.interact {
+  margin-top: 24px;
+}
+
+.interact h2 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.interact-section {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+
+.interact-section h3 {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #999;
+  margin: 6px 0;
+}
+
+/* 交互区按钮：白底蓝边（覆盖 .buttons button 的 border:none） */
+.buttons button.secondary {
+  background: #fff;
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.buttons button.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#cameraVideo {
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+  display: none;
+  margin-top: 8px;
+}
+
+#snapshotImg {
+  width: 100%;
+  border-radius: 8px;
+  display: none;
+  margin-top: 8px;
+}
+
+.asr-result {
+  margin-top: 8px;
+  padding: 10px 12px;
+  min-height: 42px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  background: #fff;
+  word-break: break-all;
+}
+
+#asrFallback {
+  margin-top: 8px;
+}

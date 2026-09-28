@@ -1,0 +1,11 @@
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 运行生成物（网页导出 / 脚本输出，可重新生成）
+dormmate.csv
+trend.png
+report.html
+
+# 本地编辑器配置
+.claude/
