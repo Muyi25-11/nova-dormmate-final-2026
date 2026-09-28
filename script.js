@@ -329,14 +329,23 @@ function speak(text) {
 }
 
 // 执行指令：命中固定语音指令则触发对应功能，其余文字仅展示不触发
+// 返回执行反馈文字（未命中指令返回空字符串），便于在页面上展示「指令已触发」
 function executeCommand(text) {
-  if (!text) return;
+  if (!text) return '';
   if (text.indexOf('朗读状态') !== -1) {
+    // 触发 TTS：朗读内容跟随当前环境状态动态变化
     speak(currentStatusText || '当前还没有分析结果，请先录入温湿度并点击分析环境');
-  } else if (text.indexOf('拍照') !== -1) {
-    // 复用快照按钮的逻辑
-    snapshotBtn.click();
+    return '已执行指令「朗读状态」，正在朗读当前状态';
   }
+  if (text.indexOf('拍照') !== -1) {
+    // 触发 Camera：复用快照按钮，截取单张现场快照
+    if (!cameraStream) {
+      return '摄像头未开启，请先点击「开启摄像头」';
+    }
+    snapshotBtn.click();
+    return '已执行指令「拍照」，快照已生成';
+  }
+  return '';
 }
 
 // 摄像头：开启摄像头申请权限并显示视频预览
@@ -378,8 +387,8 @@ if (SpeechRecognition) {
   recognition.interimResults = false; // 只要最终结果
   recognition.onresult = function (event) {
     const text = event.results[0][0].transcript;
-    asrResult.textContent = '识别结果：' + text;
-    executeCommand(text);
+    const feedback = executeCommand(text);
+    asrResult.textContent = '识别结果：' + text + (feedback ? '（' + feedback + '）' : '');
   };
   recognition.onerror = function (event) {
     asrResult.textContent = '识别出错：' + event.error + '（请确认已授予麦克风权限）';
@@ -410,8 +419,8 @@ if (SpeechRecognition) {
       alert('请输入指令，例如「朗读状态」或「拍照」');
       return;
     }
-    asrResult.textContent = '手动指令：' + text;
-    executeCommand(text);
+    const feedback = executeCommand(text);
+    asrResult.textContent = '手动指令：' + text + (feedback ? '（' + feedback + '）' : '');
     asrManualInput.value = '';
   });
 }
